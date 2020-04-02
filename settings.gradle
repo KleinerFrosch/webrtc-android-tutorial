@@ -1,3 +1,4 @@
 rootProject.name='webrtc-android-tutorial'
 include ':step-01'
 include ':step-02'
+include ':step-03'
