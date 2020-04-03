@@ -1,4 +1,8 @@
-package com.wace.step_03.rtc;
+package com.wace.step_03.rtc.participant;
+
+import android.content.Context;
+
+import com.wace.step_03.rtc.PCFactoryProxy;
 
 import org.webrtc.AudioTrack;
 import org.webrtc.IceCandidate;
@@ -16,11 +20,38 @@ import java.util.List;
  */
 public abstract class Participant {
 
+	protected String connectionId;
+	protected String participantName;
 	protected List<IceCandidate> candidateList = new ArrayList<>();
 	protected PeerConnection peerConnection;
 	protected AudioTrack audioTrack;
 	protected VideoTrack videoTrack;
 	protected MediaStream mediaStream;
+	protected PCFactoryProxy pcFactoryProxy;
+	protected Context context;
+
+	public Participant(String connectionId, String participantName, Context context) {
+		this.connectionId = connectionId;
+		this.participantName = participantName;
+		this.context = context;
+		pcFactoryProxy = new PCFactoryProxy(context);
+	}
+
+	public String getConnectionId() {
+		return connectionId;
+	}
+
+	public void setConnectionId(String connectionId) {
+		this.connectionId = connectionId;
+	}
+
+	public String getParticipantName() {
+		return participantName;
+	}
+
+	public void setParticipantName(String participantName) {
+		this.participantName = participantName;
+	}
 
 	public List<IceCandidate> getCandidateList() {
 		return candidateList;
@@ -62,7 +93,7 @@ public abstract class Participant {
 		this.mediaStream = mediaStream;
 	}
 
-	public void dispost() {
+	public void dispose() {
 		if (peerConnection != null) {
 			peerConnection.close();
 		}
